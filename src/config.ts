@@ -2,10 +2,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const frontendOrigins = (process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 export const config = {
   port: Number(process.env.PORT ?? 4000),
   databaseUrl: process.env.DATABASE_URL ?? '',
-  frontendOrigin: process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000',
+  frontendOrigins,
   jwtSecret: process.env.JWT_SECRET ?? '',
   genesisUsername: process.env.GENESIS_SUPERADMIN_USERNAME ?? '',
   genesisPassword: process.env.GENESIS_SUPERADMIN_PASSWORD ?? '',

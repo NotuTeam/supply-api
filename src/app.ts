@@ -12,7 +12,14 @@ export const app = express();
 
 app.use(
   cors({
-    origin: config.frontendOrigin,
+    origin: (origin, callback) => {
+      if (!origin || config.frontendOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error('Origin not allowed by CORS'));
+    },
   })
 );
 app.use(express.json());
